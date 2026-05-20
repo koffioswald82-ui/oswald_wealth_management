@@ -7,8 +7,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from engines.budget_optimizer import BudgetOptimizer, OPTIMIZATION_TIPS
-from utils.formatters import format_currency
+from engines.budget_optimizer import BudgetOptimizer
 import plotly.graph_objects as go
 
 st.set_page_config(
@@ -27,37 +26,75 @@ p = st.session_state.profile
 cur = p.currency
 sym = {"EUR": "€", "USD": "$", "GBP": "£", "CHF": "CHF", "CAD": "CA$", "XOF": "FCFA"}.get(cur, cur)
 opt = BudgetOptimizer(p)
+TIPS = opt.tips
+ctx = opt.context
+CATEGORY_ORDER = list(TIPS.keys())
+is_ci = (cur == "XOF")
 
-CATEGORY_ORDER = list(OPTIMIZATION_TIPS.keys())
-
+# ── Hero avec badge pays ──────────────────────────────────────
+flag = ctx["flag"]
+country = ctx["country"]
 st.markdown(
-    '<div class="hero-banner">'
-    '<div class="hero-title">🔍 Budget Intelligent</div>'
-    '<div class="hero-subtitle">'
-    "Analysez chaque poste de dépense. Obtenez des conseils concrets, chiffrés, actionnables — "
-    "pas des généralités, mais votre situation réelle."
-    '</div>'
-    '</div>',
+    f'<div class="hero-banner">'
+    f'<div class="hero-title">🔍 Budget Intelligent</div>'
+    f'<div class="hero-subtitle">'
+    f'Conseils adaptés à la réalité de <strong>{flag} {country}</strong> — '
+    f'prix réels, services locaux, habitudes locales. '
+    f'Pas des généralités : votre vie, votre argent.'
+    f'</div>'
+    f'</div>',
     unsafe_allow_html=True,
 )
+
+# Bannière CI spécifique
+if is_ci:
+    st.markdown(
+        '<div style="background:linear-gradient(135deg, rgba(255,140,0,0.12), rgba(0,160,0,0.08)); '
+        'border:1px solid rgba(255,140,0,0.3); border-radius:14px; padding:18px 22px; margin-bottom:20px;">'
+        '<div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">'
+        '<span style="font-size:2rem;">🇨🇮</span>'
+        '<div>'
+        '<div style="color:#FFA500; font-weight:700; font-size:1rem;">Adapté à la Côte d\'Ivoire</div>'
+        '<div style="color:#C8D4E8; font-size:0.85rem;">'
+        'Prix en FCFA, marchés vivriers, gbaka, maquis, Mobile Money, tontines — '
+        'les vraies réalités du quotidien ivoirien.'
+        '</div>'
+        '</div>'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
 # ── Saisie des dépenses ───────────────────────────────────────
 st.markdown("### Vos dépenses mensuelles réelles")
 st.markdown(
     '<div style="color:#8899BB; font-size:0.85rem; margin-bottom:16px;">'
-    "Renseignez ce que vous dépensez <strong>réellement</strong> chaque mois — pas ce que vous voudriez. "
-    "Soyez honnête : l'analyse sera d'autant plus utile."
+    "Renseignez ce que vous dépensez <strong>réellement</strong> chaque mois. "
+    "Plus vous êtes précis, plus les conseils sont pertinents."
     "</div>",
     unsafe_allow_html=True,
 )
 
 # Pre-fill from profile if available
-monthly_income = p.monthly_income or 3000
-default_spending = {
-    "Alimentation": round(monthly_income * 0.15),
-    "Transport": round(monthly_income * 0.10),
-    "Logement": round(monthly_income * 0.30),
-    "Abonnements": round(monthly_income * 0.05),
+monthly_income = p.monthly_income or (300000 if is_ci else 3000)
+if is_ci:
+    default_spending = {
+        "Alimentation": round(monthly_income * 0.20),
+        "Transport": round(monthly_income * 0.12),
+        "Logement": round(monthly_income * 0.28),
+        "Mobile Money": round(monthly_income * 0.03),
+        "Tontine & Épargne locale": round(monthly_income * 0.08),
+        "Abonnements": round(monthly_income * 0.04),
+        "Santé": round(monthly_income * 0.05),
+        "Loisirs": round(monthly_income * 0.05),
+        "Banque & Finances": round(monthly_income * 0.02),
+    }
+else:
+    default_spending = {
+        "Alimentation": round(monthly_income * 0.15),
+        "Transport": round(monthly_income * 0.10),
+        "Logement": round(monthly_income * 0.30),
+        "Abonnements": round(monthly_income * 0.05),
     "Santé": round(monthly_income * 0.04),
     "Loisirs": round(monthly_income * 0.07),
     "Vêtements": round(monthly_income * 0.03),
@@ -70,15 +107,16 @@ if "spending_inputs" not in st.session_state:
 col_a, col_b = st.columns(2)
 spending = {}
 for i, cat in enumerate(CATEGORY_ORDER):
-    cfg = OPTIMIZATION_TIPS[cat]
+    cfg = TIPS[cat]
     col = col_a if i % 2 == 0 else col_b
     with col:
+        step_val = 1000 if is_ci else 10
         val = st.number_input(
             f"{cfg['icon']} {cat}",
             min_value=0,
-            max_value=int(monthly_income),
+            max_value=int(monthly_income * 2),
             value=int(st.session_state.spending_inputs.get(cat, default_spending.get(cat, 0))),
-            step=10,
+            step=step_val,
             key=f"spend_{cat}",
         )
         spending[cat] = val
@@ -169,9 +207,9 @@ st.markdown("### Où va votre argent — et combien récupérer")
 
 chart_col, chart_col2 = st.columns(2)
 with chart_col:
-    labels = [f"{OPTIMIZATION_TIPS[c]['icon']} {c}" for c in CATEGORY_ORDER if spending.get(c, 0) > 0]
+    labels = [f"{TIPS[c]['icon']} {c}" for c in CATEGORY_ORDER if spending.get(c, 0) > 0]
     values = [spending[c] for c in CATEGORY_ORDER if spending.get(c, 0) > 0]
-    colors = [OPTIMIZATION_TIPS[c]["color"] for c in CATEGORY_ORDER if spending.get(c, 0) > 0]
+    colors = [TIPS[c]["color"] for c in CATEGORY_ORDER if spending.get(c, 0) > 0]
 
     fig_pie = go.Figure(go.Pie(
         labels=labels, values=values, hole=0.42,
@@ -197,9 +235,9 @@ with chart_col2:
             result = opt.analyze_category(cat, spending[cat])
             best_saving = max((t["estimated_saving"] for t in result.get("tips", [])), default=0)
             if best_saving > 0:
-                cats_with_savings.append(f"{OPTIMIZATION_TIPS[cat]['icon']} {cat}")
+                cats_with_savings.append(f"{TIPS[cat]['icon']} {cat}")
                 savings_vals.append(best_saving)
-                savings_colors.append(OPTIMIZATION_TIPS[cat]["color"])
+                savings_colors.append(TIPS[cat]["color"])
 
     fig_bar = go.Figure(go.Bar(
         x=savings_vals, y=cats_with_savings,
@@ -234,7 +272,7 @@ for cat in CATEGORY_ORDER:
     if amount <= 0:
         continue
 
-    cfg = OPTIMIZATION_TIPS[cat]
+    cfg = TIPS[cat]
     result = opt.analyze_category(cat, amount)
     total_pot = result.get("total_potential_saving", 0)
     pot_pct = total_pot / amount * 100 if amount > 0 else 0
@@ -357,49 +395,59 @@ for cat in CATEGORY_ORDER:
 
         # Food special: restaurant vs maison calculator
         if cat == "Alimentation":
+            calc_title = "🍳 Calculateur : Maquis vs Maison" if is_ci else "🍳 Calculateur : Resto vs Maison"
+            lbl_resto = ctx["restaurant_label"].capitalize()
+            lbl_home = ctx["home_label"].capitalize()
+            step_calc = 1000 if is_ci else 10
+            max_calc = int(amount) + (100000 if is_ci else 1000)
+            default_resto = min(int(amount * 0.4), 150000 if is_ci else 300)
+            default_grocery = min(int(amount * 0.6), 200000 if is_ci else 400)
             st.markdown(
-                '<div style="background:rgba(76,175,80,0.05); border:1px solid rgba(76,175,80,0.2); '
-                'border-radius:10px; padding:16px 18px; margin-top:4px;">'
-                '<div style="color:#4CAF50; font-weight:700; font-size:0.9rem; margin-bottom:12px;">'
-                '🍳 Calculateur : Resto vs Maison</div>',
+                f'<div style="background:rgba(76,175,80,0.05); border:1px solid rgba(76,175,80,0.2); '
+                f'border-radius:10px; padding:16px 18px; margin-top:4px;">'
+                f'<div style="color:#4CAF50; font-weight:700; font-size:0.9rem; margin-bottom:12px;">'
+                f'{calc_title}</div>',
                 unsafe_allow_html=True,
             )
             fc1, fc2 = st.columns(2)
             with fc1:
                 resto_budget = st.number_input(
-                    "Budget restaurants / livraison / fast-food (€/mois)",
-                    min_value=0, max_value=2000,
-                    value=min(int(amount * 0.4), 300),
-                    step=10, key="calc_resto",
+                    f"Budget {lbl_resto} ({sym}/mois)",
+                    min_value=0, max_value=max_calc,
+                    value=default_resto,
+                    step=step_calc, key="calc_resto",
                 )
             with fc2:
                 grocery_budget = st.number_input(
-                    "Budget courses alimentaires (€/mois)",
-                    min_value=0, max_value=2000,
-                    value=min(int(amount * 0.6), 400),
-                    step=10, key="calc_grocery",
+                    f"Budget courses alimentaires ({sym}/mois)",
+                    min_value=0, max_value=max_calc,
+                    value=default_grocery,
+                    step=step_calc, key="calc_grocery",
                 )
 
             meal = opt.meal_cost_comparison(float(resto_budget), float(grocery_budget))
             if meal["potential_saving"] > 0:
                 n_meals = meal["restaurant_meals_count"]
-                home_cost = meal["home_equivalent_cost"]
+                home_cost_val = meal["home_equivalent_cost"]
                 saving_m = meal["potential_saving"]
+                cost_resto = meal["cost_per_restaurant_meal"]
+                cost_home = meal["cost_per_home_meal"]
                 st.markdown(
                     f'<div style="display:flex; gap:24px; flex-wrap:wrap; margin-top:10px;">'
                     f'<div style="text-align:center;">'
-                    f'<div style="color:#8899BB; font-size:0.75rem;">Repas resto (estimé)</div>'
-                    f'<div style="color:#F44336; font-size:1.1rem; font-weight:700;">{n_meals} repas × 16 €</div>'
+                    f'<div style="color:#8899BB; font-size:0.75rem;">{lbl_resto} (estimé)</div>'
+                    f'<div style="color:#F44336; font-size:1.1rem; font-weight:700;">'
+                    f'{n_meals} repas × {sym}{cost_resto:,.0f}</div>'
                     f'</div>'
                     f'<div style="text-align:center;">'
-                    f'<div style="color:#8899BB; font-size:0.75rem;">Même nombre maison</div>'
+                    f'<div style="color:#8899BB; font-size:0.75rem;">Même nombre — {lbl_home}</div>'
                     f'<div style="color:#4CAF50; font-size:1.1rem; font-weight:700;">'
-                    f'{sym}{home_cost} total (3,50 €/repas)</div>'
+                    f'{sym}{home_cost_val:,.0f} total ({sym}{cost_home:,.0f}/repas)</div>'
                     f'</div>'
                     f'<div style="text-align:center;">'
                     f'<div style="color:#8899BB; font-size:0.75rem;">Économie possible</div>'
                     f'<div style="color:#D4AF37; font-size:1.3rem; font-weight:800;">'
-                    f'{sym}{saving_m}/mois</div>'
+                    f'{sym}{saving_m:,.0f}/mois</div>'
                     f'</div>'
                     f'</div>',
                     unsafe_allow_html=True,

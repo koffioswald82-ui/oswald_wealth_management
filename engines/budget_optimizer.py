@@ -688,14 +688,736 @@ OPTIMIZATION_TIPS = {
 }
 
 
+# ── Contexte Côte d'Ivoire (XOF / FCFA) ─────────────────────────────────────
+CI_OPTIMIZATION_TIPS = {
+    "Alimentation": {
+        "icon": "🍽️",
+        "benchmark_pct": 0.20,
+        "color": "#4CAF50",
+        "tips": [
+            {
+                "id": "marche_vivriers",
+                "title": "Marchés vivriers : 2× moins cher que les supermarchés",
+                "saving_pct": 0.35,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Les marchés vivriers (Adjamé, Gouro, Cocody, Yopougon) vendent les mêmes produits "
+                    "2 à 3 fois moins cher que SPAR, Carrefour ou PlaYce. "
+                    "Venez en semaine : prix plus bas, moins de monde."
+                ),
+                "examples": [
+                    "Tomates marchés Gouro : 500 FCFA/kg vs SPAR : 1 400 FCFA/kg",
+                    "Igname marché vivrier : 800 FCFA/kg vs supermarché : 2 200 FCFA/kg",
+                    "Banane plantain : 150 FCFA/régime vs 600 FCFA en supermarché",
+                    "Graine de palme fraîche : 500 FCFA/kg marché vs 1 800 FCFA en conserve",
+                ],
+                "actions": [
+                    "Faites 1 grand marché hebdomadaire le mardi ou mercredi (prix les plus bas)",
+                    "Apportez un grand sac, achetez en quantité pour 7 jours",
+                    "Construisez une relation avec 1–2 vendeurs réguliers : prix fidèle + meilleure qualité",
+                ],
+                "monthly_saving_example": 18000,
+            },
+            {
+                "id": "maquis_vs_restaurant",
+                "title": "Maquis local vs restaurant climatisé",
+                "saving_pct": 0.30,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Un repas au maquis (attiéké poisson, riz sauce, placali) coûte 1 500–3 000 FCFA. "
+                    "Le même repas dans un restaurant climatisé ou une brasserie : 8 000–20 000 FCFA. "
+                    "La nourriture est souvent meilleure au maquis."
+                ),
+                "examples": [
+                    "Attiéké poisson grillé maquis : 1 500–2 500 FCFA vs brasserie : 9 000 FCFA",
+                    "Riz sauce graine cuisine de rue : 500–800 FCFA vs restaurant : 5 000 FCFA",
+                    "Aloco poulet maquis : 1 000 FCFA vs fast-food type KFC : 4 500 FCFA",
+                ],
+                "actions": [
+                    "Identifiez 2–3 maquis propres et réguliers près de votre bureau / domicile",
+                    "Déjeuner au maquis 4j/5 vs restaurant : économie ~25 000 FCFA/mois",
+                    "Cuisinez soi-même le vendredi soir et le week-end pour équilibrer",
+                ],
+                "monthly_saving_example": 25000,
+            },
+            {
+                "id": "cuisine_maison_ci",
+                "title": "Cuisiner ses plats locaux soi-même",
+                "saving_pct": 0.28,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "Préparer soi-même le foutou, le riz sauce, le kedjenou ou l'attiéké "
+                    "revient 4 à 6 fois moins cher qu'un repas acheté dehors. "
+                    "1h de cuisine = 5 repas couverts."
+                ),
+                "examples": [
+                    "Riz sauce tomate maison (4 portions) : 1 200 FCFA total = 300 FCFA/pers",
+                    "Soupe de poisson maison (6 portions) : 3 500 FCFA = 580 FCFA/pers",
+                    "Attiéké + thon en conserve maison : 800 FCFA vs acheté : 2 500 FCFA",
+                ],
+                "actions": [
+                    "Batch cooking le dimanche : riz, sauce et protéine pour 3 jours",
+                    "Achetez une glacière ou réfrigérateur d'occasion pour conserver les restes",
+                    "Partagez les coûts : cuisinez à 2 ou 3 pour diviser le temps et les achats",
+                ],
+                "monthly_saving_example": 20000,
+            },
+            {
+                "id": "achat_gros_adjame",
+                "title": "Achats en gros au marché d'Adjamé",
+                "saving_pct": 0.20,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "Le grand marché d'Adjamé (et Abobo, Yopougon) permet d'acheter condiments, "
+                    "huile, riz, sucre en grande quantité avec un prix grossiste. "
+                    "1 achat mensuel remplace 4 petits achats."
+                ),
+                "examples": [
+                    "Sac de riz 25 kg Adjamé : 16 000 FCFA vs petits sachets marché : 24 000 FCFA",
+                    "Bidon huile 5L : 7 000 FCFA vs 1L × 5 = 10 500 FCFA",
+                    "Condiments en gros (cube maggi, concentré tomate) : -40 % vs épicerie",
+                ],
+                "actions": [
+                    "Faites un grand stock mensuel : riz, huile, sucre, savon, cube Maggi",
+                    "Venez avec un ami pour partager les quantités et frais de transport",
+                    "Évitez les épiceries de quartier pour les produits secs (marge × 2 à 3)",
+                ],
+                "monthly_saving_example": 12000,
+            },
+        ],
+    },
+    "Transport": {
+        "icon": "🚗",
+        "benchmark_pct": 0.12,
+        "color": "#2196F3",
+        "tips": [
+            {
+                "id": "gbaka_woro",
+                "title": "Gbaka et woro-woro vs taxi personnel",
+                "saving_pct": 0.55,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Un trajet en taxi individuel coûte 2 000–6 000 FCFA à Abidjan. "
+                    "Le même trajet en gbaka + woro-woro : 300–700 FCFA. "
+                    "5 trajets/jour × différence = 150 000 FCFA économisés par mois."
+                ),
+                "examples": [
+                    "Cocody → Plateau taxi : 3 000 FCFA vs gbaka + woro : 500 FCFA",
+                    "Yopougon → Adjamé taxi : 4 000 FCFA vs gbaka : 350 FCFA",
+                    "Course Bolt/Yango centre-ville : 2 500–5 000 FCFA vs gbaka : 200–500 FCFA",
+                ],
+                "actions": [
+                    "Identifiez les lignes gbaka de votre trajet domicile–travail",
+                    "Réservez le taxi pour les urgences et rendez-vous importants seulement",
+                    "Application Bolt en off-peak (6h–7h30) : jusqu'à 40 % moins cher",
+                ],
+                "monthly_saving_example": 45000,
+            },
+            {
+                "id": "covoiturage_collegues",
+                "title": "Covoiturage avec collègues ou voisins",
+                "saving_pct": 0.40,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Partager la voiture avec 1 collègue de même quartier divise le carburant par 2. "
+                    "À 700 FCFA/L d'essence et 30 km/jour, cela représente 30 000–40 000 FCFA/mois économisés."
+                ),
+                "examples": [
+                    "Carburant solo Angré–Plateau : ~45 000 FCFA/mois vs partagé : 22 500 FCFA",
+                    "Alternance conducteur : une semaine sur deux = 0 carburant payé les autres semaines",
+                    "Groupe WhatsApp de covoiturage de quartier : gratuit, immédiat",
+                ],
+                "actions": [
+                    "Annonce WhatsApp dans votre immeuble ou cité : 'cherche covoiturage vers Plateau'",
+                    "Application Heetch / Bolt Pool pour le covoiturage organisé",
+                    "Modèle simple : celui qui conduit ne paie pas l'essence cette semaine",
+                ],
+                "monthly_saving_example": 22000,
+            },
+            {
+                "id": "entretien_voiture_ci",
+                "title": "Entretien préventif : éviter les grosses pannes",
+                "saving_pct": 0.20,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "En Côte d'Ivoire, une panne moteur sur route = remorquage + réparation = "
+                    "200 000–600 000 FCFA. Une vidange à 15 000 FCFA toutes les 5 000 km évite cela."
+                ),
+                "examples": [
+                    "Vidange + filtre à huile : 12 000–18 000 FCFA = évite casse moteur 250 000 FCFA",
+                    "Pneus regonflés (pression correcte) : consommation -3 % = 1 500 FCFA/mois économisés",
+                    "Remplacement courroie de distribution à temps : 35 000 FCFA vs moteur cassé : 400 000 FCFA",
+                ],
+                "actions": [
+                    "Vidange tous les 5 000 km ou tous les 3 mois — notez la date dans votre téléphone",
+                    "Garagiste de confiance dans le quartier : négociez un forfait entretien annuel",
+                    "Vérification pression pneus : 1 fois par mois, 5 min, économie réelle",
+                ],
+                "monthly_saving_example": 8000,
+            },
+        ],
+    },
+    "Logement": {
+        "icon": "🏠",
+        "benchmark_pct": 0.30,
+        "color": "#FF9800",
+        "tips": [
+            {
+                "id": "cie_optimisation",
+                "title": "Réduire sa facture CIE (électricité) de 30 %",
+                "saving_pct": 0.30,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "La climatisation représente 60–70 % d'une facture CIE. "
+                    "Un climatiseur laissé allumé toute la nuit à vide = 15 000–25 000 FCFA/mois gaspillés. "
+                    "Les appareils en veille consomment en continu."
+                ),
+                "examples": [
+                    "Clim à 26 °C (vs 18 °C) : consommation divisée par 2,5 = ~20 000 FCFA économisés",
+                    "Clim avec minuterie (éteinte 4h avant réveil) : -30 % sur la facture clim",
+                    "Ventilateur de plafond : 200 FCFA/mois vs clim : 8 000 FCFA/mois",
+                ],
+                "actions": [
+                    "Programmez votre clim pour s'éteindre 2h après votre endormissement",
+                    "Branchez les appareils sur multiprises à interrupteur : éteignez la nuit",
+                    "Ampoules LED (500 FCFA pièce) vs incandescentes : -80 % sur éclairage",
+                ],
+                "monthly_saving_example": 15000,
+            },
+            {
+                "id": "colocation_ci",
+                "title": "Colocation : loyer divisé, qualité améliorée",
+                "saving_pct": 0.40,
+                "effort": "élevé",
+                "effort_color": "#F44336",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "À Abidjan, un appartement 2 chambres en colocation revient moins cher "
+                    "qu'un studio seul, pour plus d'espace. L'entraide sur les charges divise aussi l'eau et l'électricité."
+                ),
+                "examples": [
+                    "Studio Cocody : 80 000 FCFA seul vs chambre en colocation T3 : 45 000 FCFA",
+                    "Charges partagées (eau, électricité, gardien) : -50 % chacun",
+                    "Yopougon T3 en colocation à 3 : 30 000 FCFA/pers vs studio 60 000 FCFA",
+                ],
+                "actions": [
+                    "Groupe Facebook 'Colocation Abidjan' pour trouver des colocataires sérieux",
+                    "Contrat de partage simple : chaque colocataire paie sa part directement au propriétaire",
+                    "Vérifiez la compatibilité avant : horaires, habitudes, règles de vie commune",
+                ],
+                "monthly_saving_example": 35000,
+            },
+            {
+                "id": "eau_sodeci",
+                "title": "Optimiser sa consommation d'eau SODECI",
+                "saving_pct": 0.25,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "Les fuites non réparées (robinet qui goutte) peuvent tripler la facture SODECI. "
+                    "Un robinet qui goutte perd 15 L/heure = 10 000 L/mois gaspillés."
+                ),
+                "examples": [
+                    "Robinet qui goutte réparé : économie 3 000–8 000 FCFA/mois",
+                    "Chasse d'eau qui coule : 20 000–40 000 FCFA/mois gaspillés",
+                    "Récupération eau de pluie pour le jardin/lessive : -20 % facture eau",
+                ],
+                "actions": [
+                    "Vérifiez tous les robinets : si ça goutte, réparez (moins de 2 000 FCFA de pièce)",
+                    "Compteur principal coupé la nuit si pas d'utilisation : détecte les fuites cachées",
+                    "Plombier de quartier pour inspection annuelle : 5 000 FCFA, peut éviter 50 000 FCFA de facture",
+                ],
+                "monthly_saving_example": 5000,
+            },
+        ],
+    },
+    "Mobile Money": {
+        "icon": "📲",
+        "benchmark_pct": 0.03,
+        "color": "#FF5722",
+        "tips": [
+            {
+                "id": "wave_vs_orange",
+                "title": "Wave : transferts gratuits et retraits moins chers",
+                "saving_pct": 0.60,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Wave (application bleue) propose les transferts entre comptes Wave gratuits "
+                    "et des retraits à 1 % vs Orange Money à 1–3,5 %. "
+                    "Sur 200 000 FCFA de transferts mensuels, l'économie est significative."
+                ),
+                "examples": [
+                    "Transfert 50 000 FCFA Wave → Wave : 0 FCFA vs Orange Money → OM : 500–1 000 FCFA",
+                    "Retrait 100 000 FCFA Wave : 1 000 FCFA vs Orange Money : 2 500 FCFA",
+                    "Paiement marchand Wave : 0 % de frais vs espèces avec risque de fausse monnaie",
+                ],
+                "actions": [
+                    "Téléchargez Wave et incitez vos proches à l'utiliser aussi (réseau = plus d'avantages)",
+                    "Paiements marchands : privilégiez Wave pour les transactions du quotidien",
+                    "Gardez Orange Money pour les destinataires qui n'ont pas Wave",
+                ],
+                "monthly_saving_example": 8000,
+            },
+            {
+                "id": "eviter_frais_retrait",
+                "title": "Planifier les retraits pour éviter les petits frais répétés",
+                "saving_pct": 0.40,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "5 petits retraits de 10 000 FCFA coûtent 5 × 300 FCFA = 1 500 FCFA en frais. "
+                    "1 seul retrait de 50 000 FCFA coûte 500 FCFA. "
+                    "Planifier = économiser sur les frais répétitifs."
+                ),
+                "examples": [
+                    "10 retraits de 5 000 FCFA/mois : 10 × 200 FCFA = 2 000 FCFA de frais",
+                    "2 retraits de 25 000 FCFA/mois : 2 × 400 FCFA = 800 FCFA de frais",
+                    "Économie annuelle : 14 400 FCFA simplement en groupant les retraits",
+                ],
+                "actions": [
+                    "Retirez une fois par semaine en quantité suffisante plutôt que tous les jours",
+                    "Utilisez le paiement mobile (Wave, Orange Money) pour éviter les retraits",
+                    "Gardez un petit fond d'espèces à la maison pour les petites dépenses",
+                ],
+                "monthly_saving_example": 4000,
+            },
+            {
+                "id": "epargne_mobile_money",
+                "title": "Épargne automatique via mobile money",
+                "saving_pct": 0.00,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Orange Money Épargne, Wave Épargne, ou MTN MoMo permettent de bloquer "
+                    "automatiquement un montant à chaque réception de salaire. "
+                    "'Payez-vous d'abord' : le meilleur réflexe financier."
+                ),
+                "examples": [
+                    "Virement auto de 10 000 FCFA le jour du salaire : 120 000 FCFA/an sans effort",
+                    "Orange Money Épargne : bloque l'argent et offre 3,5 % d'intérêt annuel",
+                    "Règle des 24h : avant tout achat >10 000 FCFA, attendez 24h",
+                ],
+                "actions": [
+                    "Configurez un virement automatique dès réception du salaire (10–20 % minimum)",
+                    "Ouvrez un compte épargne distinct de votre compte courant Mobile Money",
+                    "Ne liez PAS votre carte d'épargne au paiement marchand",
+                ],
+                "monthly_saving_example": 0,
+            },
+        ],
+    },
+    "Tontine & Épargne locale": {
+        "icon": "🤝",
+        "benchmark_pct": 0.10,
+        "color": "#D4AF37",
+        "tips": [
+            {
+                "id": "tontine_bien_choisie",
+                "title": "Bien choisir et structurer sa tontine",
+                "saving_pct": 0.00,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "La tontine (njangi, susu) est un outil puissant si bien structurée. "
+                    "Membres fiables + montant adapté = discipline d'épargne forcée sans banque. "
+                    "Mal structurée, elle peut devenir une source de conflits."
+                ),
+                "examples": [
+                    "Tontine de 10 personnes à 25 000 FCFA/mois : chacun reçoit 250 000 FCFA à son tour",
+                    "Tour mensuel = capital pour un projet (stock commerce, réparation maison)",
+                    "Tontine avec intérêt (10 % ajouté au pot) : 275 000 FCFA reçus au lieu de 250 000",
+                ],
+                "actions": [
+                    "Membres uniquement de confiance absolue — 1 défaillant = problème pour tous",
+                    "Rédigez un document simple : ordre de passage, montant, pénalités de retard",
+                    "Montant = ce que vous pouvez payer même un mauvais mois (ne vous surestimez pas)",
+                ],
+                "monthly_saving_example": 0,
+            },
+            {
+                "id": "entraide_familiale_saine",
+                "title": "Gérer sainement l'entraide familiale",
+                "saving_pct": 0.15,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "L'entraide familiale est une valeur fondamentale, mais sans structure, "
+                    "elle peut vider votre budget. Fixer un 'budget solidarité' mensuel fixe "
+                    "protège votre épargne tout en restant généreux."
+                ),
+                "examples": [
+                    "Budget solidarité fixe à 15 000 FCFA/mois : vous savez quoi donner et quand dire non",
+                    "Aide en nature plutôt qu'en cash : moins de pression sur vos liquidités",
+                    "Communiquez clairement : 'je peux aider de X mais pas plus ce mois'",
+                ],
+                "actions": [
+                    "Définissez votre enveloppe solidarité avant de la distribuer, pas après",
+                    "Priorité : vous-même → fonds urgence → épargne → solidarité",
+                    "Non-remboursement : traiter comme un don, pas un prêt, pour éviter le ressentiment",
+                ],
+                "monthly_saving_example": 10000,
+            },
+            {
+                "id": "microfinance_ci",
+                "title": "Microfinance et COOPEC : alternatives à la banque classique",
+                "saving_pct": 0.00,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Les COOPEC (coopératives d'épargne et crédit), Advans CI, FINCA, "
+                    "et microfinances locales offrent des taux d'épargne 3–5 % et des "
+                    "micro-crédits pour les projets, sans les frais bancaires classiques."
+                ),
+                "examples": [
+                    "Compte COOPEC : 0 FCFA de frais de tenue vs banque classique : 3 000–6 000 FCFA/mois",
+                    "Micro-crédit Advans CI à 18 % vs prêt personnel banque à 24–30 %",
+                    "Épargne rémunérée COOPEC : 4,5 % vs compte bancaire ordinaire : 0 %",
+                ],
+                "actions": [
+                    "Identifiez la COOPEC ou microfinance de votre quartier",
+                    "Ouvrez un compte d'épargne là-bas pour votre fonds d'urgence",
+                    "Comparez les taux avant tout crédit : banque vs microfinance vs mobile money",
+                ],
+                "monthly_saving_example": 5000,
+            },
+        ],
+    },
+    "Abonnements": {
+        "icon": "📱",
+        "benchmark_pct": 0.04,
+        "color": "#9C27B0",
+        "tips": [
+            {
+                "id": "canal_plus_ci",
+                "title": "Optimiser son abonnement Canal+",
+                "saving_pct": 0.40,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "Canal+ est souvent l'abonnement le plus cher du foyer (5 000–15 000 FCFA/mois). "
+                    "Le partager avec un voisin ou passer au forfait de base selon l'utilisation réelle."
+                ),
+                "examples": [
+                    "Canal+ Access (basique) : 5 000 FCFA/mois vs Canal+ Tout en 1 : 14 000 FCFA",
+                    "Partage antenne parabolique avec voisin : 2 500 FCFA chacun vs 5 000 FCFA seul",
+                    "Showmax (inclus dans certains forfaits Canal+) : vérifiez si vous l'utilisez vraiment",
+                ],
+                "actions": [
+                    "Vérifiez votre abonnement actuel : payez-vous pour des chaînes que vous ne regardez pas ?",
+                    "Proposez à votre voisin de partager l'antenne et l'abonnement de base",
+                    "Pendant la période sans matchs importants : passez temporairement au forfait inférieur",
+                ],
+                "monthly_saving_example": 6000,
+            },
+            {
+                "id": "forfait_mobile_ci",
+                "title": "Optimiser son forfait mobile Orange/MTN",
+                "saving_pct": 0.35,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Beaucoup de gens recharge à la demande (plus cher à l'unité) "
+                    "alors qu'un forfait mensuel adapté coûte 40–60 % moins cher par Mo et par minute."
+                ),
+                "examples": [
+                    "Orange CI : forfait data 10 Go/mois = 5 000 FCFA vs recharges à la pièce = 9 000 FCFA",
+                    "Forfait voix illimité nuit + weekend : 2 000 FCFA = 0 FCFA pour les appels familiaux",
+                    "Comparateur de forfaits : site Orange CI vs MTN CI — chaque mois les offres changent",
+                ],
+                "actions": [
+                    "Analysez vos 3 dernières recharges : data ou voix dominant ?",
+                    "Passez au forfait mensuel adapté à votre usage réel",
+                    "Activez le wifi domicile/bureau pour économiser votre data mobile",
+                ],
+                "monthly_saving_example": 4000,
+            },
+        ],
+    },
+    "Santé": {
+        "icon": "💊",
+        "benchmark_pct": 0.05,
+        "color": "#E91E63",
+        "tips": [
+            {
+                "id": "generiques_ci",
+                "title": "Médicaments génériques en pharmacie",
+                "saving_pct": 0.35,
+                "effort": "très faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "En Côte d'Ivoire, les génériques coûtent 40–70 % moins cher que les marques importées "
+                    "pour la même molécule. Demandez systématiquement le générique au pharmacien."
+                ),
+                "examples": [
+                    "Paracétamol 500 mg générique : 200 FCFA vs Doliprane importé : 1 200 FCFA",
+                    "Amoxicilline générique : 1 500 FCFA vs marque : 4 500 FCFA",
+                    "Ibuprofène générique : 500 FCFA vs Nurofen importé : 2 800 FCFA",
+                ],
+                "actions": [
+                    "Dites à votre médecin : 'je veux la version générique disponible localement'",
+                    "Pharmacies LMCI ou Pharmacie Santé pour les génériques locaux",
+                    "Ne jamais acheter de médicaments dans la rue — risque de faux médicaments",
+                ],
+                "monthly_saving_example": 5000,
+            },
+            {
+                "id": "chu_vs_clinique",
+                "title": "CHU / hôpital public pour les soins courants",
+                "saving_pct": 0.50,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "Une consultation dans une clinique privée coûte 15 000–40 000 FCFA. "
+                    "La même consultation au CHU d'Abidjan ou à l'hôpital général : 2 000–5 000 FCFA. "
+                    "Pour les urgences légères et consultations courantes, le public est suffisant."
+                ),
+                "examples": [
+                    "Consultation généraliste CHU : 3 000 FCFA vs clinique privée : 20 000 FCFA",
+                    "Prise de sang CHU : 5 000 FCFA vs clinique : 25 000 FCFA",
+                    "Pharmacie Centrale CI : médicaments listés à prix encadrés par l'État",
+                ],
+                "actions": [
+                    "Identifiez le centre de santé public le plus proche de chez vous",
+                    "Clinique privée pour urgences vraies ou spécialistes — pas pour les rhumes",
+                    "Mutuelle santé employeur : vérifiez ce qu'elle rembourse exactement",
+                ],
+                "monthly_saving_example": 8000,
+            },
+        ],
+    },
+    "Loisirs": {
+        "icon": "🎉",
+        "benchmark_pct": 0.06,
+        "color": "#00BCD4",
+        "tips": [
+            {
+                "id": "loisirs_gratuits_ci",
+                "title": "Loisirs gratuits et peu chers à Abidjan",
+                "saving_pct": 0.40,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "moyen",
+                "impact_color": "#FF9800",
+                "quick_win": True,
+                "description": (
+                    "Abidjan offre de nombreuses activités gratuites ou abordables : "
+                    "plages accessibles, parcs, événements culturels, terrain de sport de quartier. "
+                    "Les dépenses loisirs peuvent être divisées par 2 sans sacrifier la qualité de vie."
+                ),
+                "examples": [
+                    "Plage Blockhaus (Bingerville) : gratuit vs Azuretti beach club : 5 000 FCFA/pers",
+                    "Terrain de foot quartier : gratuit vs salle de sport huppée : 25 000 FCFA/mois",
+                    "Festival musique et arts (MASA, FEMUA) : certains événements gratuits",
+                ],
+                "actions": [
+                    "Identifiez 3 activités gratuites ou < 1 000 FCFA près de chez vous",
+                    "Groupes Facebook 'Abidjan Sortie' pour trouver événements gratuits",
+                    "Remplacez 1 sortie restaurant sur 2 par un pique-nique en famille",
+                ],
+                "monthly_saving_example": 12000,
+            },
+            {
+                "id": "voyages_interieurs_ci",
+                "title": "Voyages intérieurs : bus longue distance vs avion",
+                "saving_pct": 0.50,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "Un billet Abidjan–Bouaké en bus UTB : 6 000–8 000 FCFA vs Air Côte d'Ivoire : "
+                    "50 000–80 000 FCFA. Pour les distances < 500 km, le bus confort est souvent suffisant."
+                ),
+                "examples": [
+                    "Abidjan → Bouaké UTB : 7 000 FCFA (4h30) vs vol : 60 000 FCFA",
+                    "Abidjan → Yamoussoukro VIP bus : 4 500 FCFA vs taxi de ville : 25 000 FCFA",
+                    "Réservation à l'avance les bus longue distance (UTB, San Pedro Express) : places à tarif normal",
+                ],
+                "actions": [
+                    "Bus UTB, TSR, Oumarou, Kéolis pour les grandes villes de l'intérieur",
+                    "Réservez 48h à l'avance pour avoir les meilleures places",
+                    "Avion uniquement pour les distances > 600 km ou urgences professionnelles",
+                ],
+                "monthly_saving_example": 15000,
+            },
+        ],
+    },
+    "Banque & Finances": {
+        "icon": "🏦",
+        "benchmark_pct": 0.02,
+        "color": "#607D8B",
+        "tips": [
+            {
+                "id": "frais_bancaires_ci",
+                "title": "Réduire ou éliminer les frais bancaires",
+                "saving_pct": 0.70,
+                "effort": "faible",
+                "effort_color": "#4CAF50",
+                "impact": "élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": True,
+                "description": (
+                    "Les banques classiques en CI (SGBCI, BICICI, SIB) facturent "
+                    "3 000–8 000 FCFA/mois de frais de tenue de compte. "
+                    "Les COOPEC et certains comptes Ecobank Basic sont à 0 FCFA."
+                ),
+                "examples": [
+                    "SGBCI frais mensuels : 5 000 FCFA = 60 000 FCFA/an → COOPEC : 0 FCFA",
+                    "Retrait DAB hors réseau : 500–1 000 FCFA à chaque fois",
+                    "Ecobank Xpress Account : 0 frais de tenue, retrait via mobile money",
+                ],
+                "actions": [
+                    "Demandez à votre banque la liste exacte de tous vos frais mensuels",
+                    "Comparez avec Ecobank Xpress ou une COOPEC de quartier",
+                    "Domiciliez votre salaire = souvent exonération des frais de tenue",
+                ],
+                "monthly_saving_example": 5000,
+            },
+            {
+                "id": "credit_taux_ci",
+                "title": "Éviter les crédits à la consommation à taux excessifs",
+                "saving_pct": 0.30,
+                "effort": "moyen",
+                "effort_color": "#FF9800",
+                "impact": "très élevé",
+                "impact_color": "#4CAF50",
+                "quick_win": False,
+                "description": (
+                    "Les crédits salaires et crédits consommation en CI affichent souvent "
+                    "24–36 % d'intérêt annuel. Sur 500 000 FCFA empruntés, "
+                    "vous pouvez rembourser 700 000–800 000 FCFA."
+                ),
+                "examples": [
+                    "500 000 FCFA à 30 % sur 18 mois : remboursement total 673 000 FCFA",
+                    "Même montant épargné en tontine sur 18 mois : 0 FCFA d'intérêts",
+                    "Microfinance Advans CI : 18 % vs banque classique : 28 % — comparez avant",
+                ],
+                "actions": [
+                    "Avant tout crédit : posez la question 'puis-je attendre 3 mois et payer cash ?'",
+                    "Tontine ou épargne forcée Mobile Money = alternative au crédit pour les projets",
+                    "Si crédit obligatoire : comparez TOUJOURS au moins 3 établissements",
+                ],
+                "monthly_saving_example": 10000,
+            },
+        ],
+    },
+}
+
+# ── Sélecteur de contexte ─────────────────────────────────────────────────────
+
+def get_tips(currency: str = "EUR") -> dict:
+    """Returns the appropriate tips dict based on currency context."""
+    return CI_OPTIMIZATION_TIPS if currency == "XOF" else OPTIMIZATION_TIPS
+
+
+def get_context_label(currency: str) -> dict:
+    """Returns UI labels for the current market context."""
+    if currency == "XOF":
+        return {
+            "country": "Côte d'Ivoire",
+            "flag": "🇨🇮",
+            "meal_restaurant_cost": 3000,
+            "meal_home_cost": 600,
+            "restaurant_label": "maquis / restaurant",
+            "home_label": "repas maison (plats locaux)",
+        }
+    return {
+        "country": "France / Europe",
+        "flag": "🇫🇷",
+        "meal_restaurant_cost": 16,
+        "meal_home_cost": 3.5,
+        "restaurant_label": "restaurant / livraison",
+        "home_label": "repas préparé maison",
+    }
+
+
 class BudgetOptimizer:
 
     def __init__(self, profile):
         self.profile = profile
+        self._tips = get_tips(getattr(profile, "currency", "EUR"))
+        self._ctx = get_context_label(getattr(profile, "currency", "EUR"))
+
+    @property
+    def tips(self):
+        return self._tips
+
+    @property
+    def context(self):
+        return self._ctx
 
     def analyze_category(self, category: str, monthly_amount: float) -> dict:
         """Returns tips with estimated savings for a given category and spend."""
-        cat = OPTIMIZATION_TIPS.get(category)
+        cat = self._tips.get(category)
         if not cat:
             return {}
         tips_out = []
@@ -707,7 +1429,7 @@ class BudgetOptimizer:
             "icon": cat["icon"],
             "color": cat["color"],
             "monthly_amount": monthly_amount,
-            "benchmark": monthly_amount * 0.8,  # simplified benchmark
+            "benchmark_pct": cat["benchmark_pct"],
             "tips": tips_out,
             "total_potential_saving": round(sum(t["estimated_saving"] for t in tips_out)),
         }
@@ -745,23 +1467,26 @@ class BudgetOptimizer:
             return monthly_saving * ((1 + r_m) ** n - 1) / r_m
         return monthly_saving * n
 
-    @staticmethod
-    def meal_cost_comparison(budget_restaurant: float, budget_groceries: float) -> dict:
-        """Detailed food breakdown analysis."""
-        if budget_restaurant > 0 and budget_groceries > 0:
-            restaurant_meals_per_month = budget_restaurant / 16
-            home_equivalent_cost = restaurant_meals_per_month * 3.5
+    def meal_cost_comparison(self, budget_restaurant: float, budget_groceries: float) -> dict:
+        """Detailed food breakdown analysis — adapted to local context."""
+        resto_cost = self._ctx["meal_restaurant_cost"]
+        home_cost = self._ctx["meal_home_cost"]
+        if budget_restaurant > 0:
+            meals_count = budget_restaurant / resto_cost
+            home_equivalent_cost = meals_count * home_cost
             saving = budget_restaurant - home_equivalent_cost
         else:
             saving = 0
             home_equivalent_cost = 0
-            restaurant_meals_per_month = 0
+            meals_count = 0
         return {
             "restaurant_budget": budget_restaurant,
-            "restaurant_meals_count": round(restaurant_meals_per_month),
+            "restaurant_meals_count": round(meals_count),
             "home_equivalent_cost": round(home_equivalent_cost),
             "potential_saving": round(max(saving, 0)),
             "groceries_budget": budget_groceries,
-            "cost_per_home_meal": 3.5,
-            "cost_per_restaurant_meal": 16,
+            "cost_per_home_meal": home_cost,
+            "cost_per_restaurant_meal": resto_cost,
+            "restaurant_label": self._ctx["restaurant_label"],
+            "home_label": self._ctx["home_label"],
         }
