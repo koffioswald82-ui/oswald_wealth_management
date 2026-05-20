@@ -100,6 +100,24 @@ class UserProfile:
     def country_avg_income(self) -> float:
         return COUNTRIES.get(self.country, {}).get("avg_income", 2800)
 
+    @property
+    def life_stage(self) -> str:
+        age = self.age
+        income_ratio = self.total_income / self.country_avg_income if self.country_avg_income > 0 else 1.0
+        if age >= self.target_retirement_age:
+            return "Retraite"
+        if age >= max(self.target_retirement_age - 11, 54):
+            return "Pre-retraite"
+        if age >= 42 and income_ratio >= 0.95:
+            return "Pic de carriere"
+        if age < 25 or (age < 28 and income_ratio < 0.45):
+            return "Etudiant"
+        if age < 30 or (age < 33 and income_ratio < 0.65):
+            return "Debut de carriere"
+        if self.num_children > 0 and age <= 48:
+            return "Famille"
+        return "Stabilisation"
+
     @classmethod
     def from_db(cls, db_dict: dict) -> "UserProfile":
         """Hydrate from a merged DB row dict."""
