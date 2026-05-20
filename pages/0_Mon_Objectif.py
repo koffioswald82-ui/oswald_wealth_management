@@ -252,8 +252,8 @@ with c1:
 with c2:
     st.metric("Objectif", format_currency(target_wealth, cur, compact=True))
 with c3:
-    st.metric("Épargne actuelle", f"{sym}{p.monthly_savings:.0f}/mois",
-             f"{'✅ Suffisant' if plan['on_track'] else f'⚠️ Manque {sym}{plan[\"monthly_gap\"]:.0f}/mois'}")
+    savings_delta = "✅ Suffisant" if plan["on_track"] else f"⚠️ Manque {sym}{plan['monthly_gap']:.0f}/mois"
+    st.metric("Épargne actuelle", f"{sym}{p.monthly_savings:.0f}/mois", savings_delta)
 
 progress_color = "#4CAF50" if progress >= 0.80 else ("#D4AF37" if progress >= 0.40 else "#8899BB")
 st.markdown(f"""
