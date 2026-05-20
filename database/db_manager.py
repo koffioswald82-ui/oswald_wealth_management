@@ -110,6 +110,29 @@ class DatabaseManager:
                 results_json TEXT,
                 created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
             );
+
+            CREATE TABLE IF NOT EXISTS monthly_budgets (
+                id         INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id    INTEGER REFERENCES user_profiles(id),
+                year       INTEGER,
+                month      INTEGER,
+                category   TEXT,
+                amount     REAL DEFAULT 0,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(user_id, year, month, category)
+            );
+
+            CREATE TABLE IF NOT EXISTS savings_log (
+                id            INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id       INTEGER REFERENCES user_profiles(id),
+                year          INTEGER,
+                month         INTEGER,
+                target_amount REAL DEFAULT 0,
+                actual_amount REAL DEFAULT 0,
+                notes         TEXT DEFAULT '',
+                updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(user_id, year, month)
+            );
             """)
 
     # ---- CRUD ----
@@ -231,3 +254,46 @@ class DatabaseManager:
         with self._conn() as conn:
             rows = conn.execute("SELECT * FROM saved_scenarios WHERE user_id=? ORDER BY created_at DESC", (user_id,)).fetchall()
         return [dict(r) for r in rows]
+
+    # ---- Monthly budget tracking ----
+
+    def save_monthly_budget(self, user_id: int, year: int, month: int, spending: dict):
+        with self._conn() as conn:
+            for category, amount in spending.items():
+                conn.execute("""
+                    INSERT INTO monthly_budgets (user_id, year, month, category, amount)
+                    VALUES (?, ?, ?, ?, ?)
+                    ON CONFLICT(user_id, year, month, category)
+                    DO UPDATE SET amount=excluded.amount, updated_at=CURRENT_TIMESTAMP
+                """, (user_id, year, month, category, amount))
+
+    def load_monthly_budget(self, user_id: int, year: int, month: int) -> dict:
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT category, amount FROM monthly_budgets WHERE user_id=? AND year=? AND month=?",
+                (user_id, year, month)
+            ).fetchall()
+        return {row["category"]: row["amount"] for row in rows}
+
+    def save_savings_entry(self, user_id: int, year: int, month: int,
+                           target: float, actual: float, notes: str = ""):
+        with self._conn() as conn:
+            conn.execute("""
+                INSERT INTO savings_log (user_id, year, month, target_amount, actual_amount, notes)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(user_id, year, month)
+                DO UPDATE SET target_amount=excluded.target_amount,
+                              actual_amount=excluded.actual_amount,
+                              notes=excluded.notes,
+                              updated_at=CURRENT_TIMESTAMP
+            """, (user_id, year, month, target, actual, notes))
+
+    def load_savings_history(self, user_id: int) -> list:
+        with self._conn() as conn:
+            rows = conn.execute("""
+                SELECT year, month, target_amount, actual_amount, notes
+                FROM savings_log WHERE user_id=? ORDER BY year ASC, month ASC
+            """, (user_id,)).fetchall()
+        return [{"year": r["year"], "month": r["month"],
+                 "target": r["target_amount"], "actual": r["actual_amount"],
+                 "notes": r["notes"]} for r in rows]

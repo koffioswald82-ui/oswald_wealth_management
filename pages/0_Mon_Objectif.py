@@ -8,6 +8,7 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from engines.goal_engine import GoalEngine
+from engines.progressive_plan import ProgressivePlanEngine
 from utils.formatters import format_currency
 from utils.constants import RISK_PROFILES
 import plotly.graph_objects as go
@@ -256,12 +257,86 @@ with c3:
     st.metric("Épargne actuelle", f"{sym}{p.monthly_savings:.0f}/mois", savings_delta)
 
 progress_color = "#4CAF50" if progress >= 0.80 else ("#D4AF37" if progress >= 0.40 else "#8899BB")
-st.markdown(f"""
-<div style="margin-top:8px;">
-    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-        <span style="color:#8899BB;">Progression vers l'objectif</span>
-        <span style="color:{progress_color}; font-weight:700;">{progress*100:.1f}%</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    f'<div style="margin-top:8px;">'
+    f'<div style="display:flex; justify-content:space-between; margin-bottom:4px;">'
+    f'<span style="color:#8899BB;">Progression vers l\'objectif</span>'
+    f'<span style="color:{progress_color}; font-weight:700;">{progress*100:.1f}%</span>'
+    f'</div></div>',
+    unsafe_allow_html=True,
+)
 st.progress(min(progress, 1.0))
+
+# ──────────────────────────────────────────────
+# PLAN PROGRESSIF — Choisissez votre rythme
+# ──────────────────────────────────────────────
+st.markdown("---")
+st.markdown("### 🗺️ Choisissez votre rythme d'épargne")
+st.markdown(
+    "<div style='color:#8899BB; margin-bottom:20px;'>"
+    "Inutile de tout épargner dès le premier mois. "
+    "Choisissez le plan qui vous correspond — vous pouvez accélérer quand vous êtes prêt(e)."
+    "</div>",
+    unsafe_allow_html=True,
+)
+
+pp = ProgressivePlanEngine(p)
+prog_plans = pp.build_progressive_plans(target_wealth, target_age, annual_return)
+prog_names = [pl["icon"] + " " + pl["name"] for pl in prog_plans]
+sel_prog = st.radio("Rythme", prog_names, horizontal=True, index=1, label_visibility="collapsed")
+sel_prog_plan = prog_plans[prog_names.index(sel_prog)]
+
+months_delayed = sel_prog_plan["months_delayed"]
+if months_delayed == 0:
+    delay_txt = "Objectif atteint a la date prevue"
+else:
+    yrs_late = months_delayed // 12
+    m_late = months_delayed % 12
+    if yrs_late > 0 and m_late > 0:
+        delay_txt = "Objectif atteint environ " + str(yrs_late) + " an(s) et " + str(m_late) + " mois plus tard"
+    elif yrs_late > 0:
+        delay_txt = "Objectif atteint environ " + str(yrs_late) + " an(s) plus tard"
+    else:
+        delay_txt = "Objectif atteint environ " + str(m_late) + " mois plus tard"
+
+pc = sel_prog_plan["color"]
+st.markdown(
+    f'<div style="background:rgba(19,27,46,0.8); border:2px solid {pc}; '
+    f'border-radius:12px; padding:18px 22px; margin:12px 0;">'
+    f'<div style="font-size:1.1rem; font-weight:700; color:{pc}; margin-bottom:6px;">'
+    f'{sel_prog_plan["icon"]} {sel_prog_plan["name"]}</div>'
+    f'<div style="color:#C8D4E8; margin-bottom:8px;">{sel_prog_plan["description"]}</div>'
+    f'<div style="color:#8899BB; font-size:0.85rem;">{delay_txt}</div>'
+    f'</div>',
+    unsafe_allow_html=True,
+)
+
+years_left_prog = max(target_age - p.age, 1)
+display_n = min(years_left_prog, 5)
+yr_items = list(sel_prog_plan["year_targets"].items())[:display_n]
+yr_cols = st.columns(display_n)
+for i, (yr_num, yr_target) in enumerate(yr_items):
+    pct_full = yr_target / required * 100 if required > 0 else 100
+    yc = "#4CAF50" if pct_full >= 95 else ("#D4AF37" if pct_full >= 60 else "#4A90D9")
+    age_s = p.age + yr_num - 1
+    age_e = p.age + yr_num
+    if yr_num == 3 and sel_prog_plan["start_pct"] < 60:
+        yr_lbl = "Annee discipline"
+    else:
+        yr_lbl = "Annee " + str(yr_num)
+    with yr_cols[i]:
+        st.markdown(
+            f'<div style="background:rgba(19,27,46,0.8); border:1px solid {yc}; '
+            f'border-radius:10px; padding:12px; text-align:center;">'
+            f'<div style="color:#8899BB; font-size:0.72rem;">{yr_lbl} · {age_s}-{age_e} ans</div>'
+            f'<div style="color:{yc}; font-size:1.25rem; font-weight:800;">{sym}{yr_target:,.0f}</div>'
+            f'<div style="color:#8899BB; font-size:0.72rem;">/mois</div>'
+            f'<div style="color:{yc}; font-size:0.7rem; margin-top:3px;">{pct_full:.0f}% du plan complet</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+if years_left_prog > 5:
+    st.caption(
+        "... a partir de l'annee 6 : " + sym + str(int(required)) + "/mois jusqu'a "
+        + str(target_age) + " ans."
+    )
