@@ -217,7 +217,7 @@ df = eng.trajectory_dataframe(target_wealth, p.target_retirement_age, annual_ret
 
 fig_wealth = go.Figure()
 fig_wealth.add_trace(go.Scatter(
-    x=df["Age"], y=df["Patrimoine"],
+    x=df["Âge"], y=df["Patrimoine"],
     fill="tozeroy", name="Votre patrimoine",
     line=dict(color="#D4AF37", width=2.5),
     fillcolor="rgba(212,175,55,0.10)",
