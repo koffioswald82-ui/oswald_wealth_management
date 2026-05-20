@@ -5,13 +5,13 @@ Règle 50/30/20. Historique persistant. Plan progressif d'épargne.
 import streamlit as st
 import sys
 import os
+import sqlite3
 from datetime import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from engines.budget_engine import BudgetEngine, BUDGET_CATEGORIES
 from engines.progressive_plan import ProgressivePlanEngine, MONTH_FR
-from database.db_manager import DatabaseManager
 from utils.constants import RISK_PROFILES
 from utils.formatters import format_currency
 import plotly.graph_objects as go
@@ -28,15 +28,88 @@ p = st.session_state.profile
 bud = BudgetEngine(p)
 cur = p.currency
 sym = {"EUR": "€", "USD": "$", "GBP": "£", "CHF": "CHF", "CAD": "CA$", "XOF": "FCFA"}.get(cur, cur)
-db = DatabaseManager()
-db.initialize()
 uid = st.session_state.get("user_id")
 annual_return = RISK_PROFILES.get(p.risk_tolerance, RISK_PROFILES["Modéré"])["expected_return"]
 target_wealth = p.desired_monthly_pension * 12 / 0.04
 pp = ProgressivePlanEngine(p)
 today = datetime.now()
 
-savings_history = db.load_savings_history(uid) if uid else []
+# ── Direct SQLite helpers (bypass DatabaseManager cache issues) ──────────────
+_BASE = os.path.join(os.path.dirname(__file__), "..")
+_DB_PATH = os.path.join(_BASE, "database", "oswald_wealth.db")
+
+
+def _conn():
+    c = sqlite3.connect(_DB_PATH)
+    c.row_factory = sqlite3.Row
+    return c
+
+
+def _ensure_budget_tables():
+    with _conn() as c:
+        c.executescript("""
+        CREATE TABLE IF NOT EXISTS monthly_budgets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER, year INTEGER, month INTEGER,
+            category TEXT, amount REAL DEFAULT 0,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, year, month, category)
+        );
+        CREATE TABLE IF NOT EXISTS savings_log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER, year INTEGER, month INTEGER,
+            target_amount REAL DEFAULT 0, actual_amount REAL DEFAULT 0,
+            notes TEXT DEFAULT '',
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, year, month)
+        );
+        """)
+
+
+def _load_monthly_budget(user_id, year, month):
+    with _conn() as c:
+        rows = c.execute(
+            "SELECT category, amount FROM monthly_budgets WHERE user_id=? AND year=? AND month=?",
+            (user_id, year, month)
+        ).fetchall()
+    return {r["category"]: r["amount"] for r in rows}
+
+
+def _save_monthly_budget(user_id, year, month, spending):
+    with _conn() as c:
+        for cat, amt in spending.items():
+            c.execute("""
+                INSERT INTO monthly_budgets (user_id,year,month,category,amount)
+                VALUES (?,?,?,?,?)
+                ON CONFLICT(user_id,year,month,category)
+                DO UPDATE SET amount=excluded.amount, updated_at=CURRENT_TIMESTAMP
+            """, (user_id, year, month, cat, amt))
+
+
+def _save_savings_entry(user_id, year, month, target, actual):
+    with _conn() as c:
+        c.execute("""
+            INSERT INTO savings_log (user_id,year,month,target_amount,actual_amount)
+            VALUES (?,?,?,?,?)
+            ON CONFLICT(user_id,year,month)
+            DO UPDATE SET target_amount=excluded.target_amount,
+                          actual_amount=excluded.actual_amount,
+                          updated_at=CURRENT_TIMESTAMP
+        """, (user_id, year, month, target, actual))
+
+
+def _load_savings_history(user_id):
+    with _conn() as c:
+        rows = c.execute("""
+            SELECT year, month, target_amount, actual_amount
+            FROM savings_log WHERE user_id=? ORDER BY year ASC, month ASC
+        """, (user_id,)).fetchall()
+    return [{"year": r["year"], "month": r["month"],
+             "target": r["target_amount"], "actual": r["actual_amount"]} for r in rows]
+
+
+_ensure_budget_tables()
+savings_history = _load_savings_history(uid) if uid else []
 
 st.markdown("""
 <div class="hero-banner">
@@ -76,7 +149,7 @@ with tab1:
         )
 
     month_label = MONTH_FR[sel_month] + " " + str(sel_year)
-    saved_budget = db.load_monthly_budget(uid, sel_year, sel_month) if uid else {}
+    saved_budget = _load_monthly_budget(uid, sel_year, sel_month) if uid else {}
 
     st.markdown("---")
 
@@ -136,11 +209,11 @@ with tab1:
     with col_save:
         if st.button("💾 Enregistrer " + month_label, use_container_width=True, type="primary"):
             if uid:
-                db.save_monthly_budget(uid, sel_year, sel_month, actual_spending)
+                _save_monthly_budget(uid, sel_year, sel_month, actual_spending)
                 plan_target = pp.full_required_monthly(
                     target_wealth, p.target_retirement_age, annual_return
                 )
-                db.save_savings_entry(
+                _save_savings_entry(
                     uid, sel_year, sel_month,
                     round(plan_target), round(analysis["total_savings"])
                 )
