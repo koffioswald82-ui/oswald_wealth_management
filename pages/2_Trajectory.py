@@ -47,7 +47,7 @@ with tab1:
             name="Patrimoine nominal", line=dict(color="#4A90D9", dash="dash", width=1.5),
         ))
         fig.add_trace(go.Bar(
-            x=traj["age"], y=traj["annual_savings"],
+            x=traj["age"], y=traj["savings_annual"],
             name="Épargne annuelle", yaxis="y2",
             marker_color="rgba(76,175,80,0.4)",
             opacity=0.6,
