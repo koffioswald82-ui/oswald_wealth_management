@@ -1,0 +1,198 @@
+/* ============================================================
+   OSWALD WEALTH MANAGEMENT — Premium Dark Theme
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* { font-family: 'Inter', sans-serif; }
+
+/* ---- Hero Banner ---- */
+.hero-banner {
+    background: linear-gradient(135deg, #0A0E1A 0%, #131B2E 50%, #1a2540 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.hero-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #D4AF37;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+.hero-subtitle {
+    font-size: 1.05rem;
+    color: #8899BB;
+    margin-top: 8px;
+}
+
+/* ---- KPI Cards ---- */
+.kpi-card {
+    background: linear-gradient(145deg, #131B2E, #1a2540);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.5);
+}
+.kpi-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #8899BB;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #D4AF37;
+}
+.kpi-delta {
+    font-size: 0.8rem;
+    color: #4CAF50;
+    margin-top: 4px;
+}
+.kpi-delta.negative { color: #F44336; }
+
+/* ---- Section Headers ---- */
+.section-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #E8E8E8;
+    border-left: 3px solid #D4AF37;
+    padding-left: 12px;
+    margin: 24px 0 16px;
+}
+
+/* ---- Score Ring ---- */
+.score-ring {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 8px solid #D4AF37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background: rgba(212,175,55,0.05);
+}
+.score-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #D4AF37;
+}
+
+/* ---- Insight Cards ---- */
+.insight-card {
+    background: rgba(19, 27, 46, 0.8);
+    border-left: 4px solid #D4AF37;
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+}
+.insight-card.warning { border-left-color: #FF9800; }
+.insight-card.danger  { border-left-color: #F44336; }
+.insight-card.success { border-left-color: #4CAF50; }
+.insight-icon { font-size: 1.2rem; margin-right: 8px; }
+.insight-text { color: #C8D4E8; font-size: 0.95rem; line-height: 1.6; }
+.insight-impact {
+    font-size: 0.8rem;
+    color: #D4AF37;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+/* ---- Table Styling ---- */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    color: #C8D4E8;
+}
+.styled-table th {
+    background: rgba(212,175,55,0.15);
+    color: #D4AF37;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+.styled-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.styled-table tr:hover td { background: rgba(212,175,55,0.05); }
+
+/* ---- Milestone Timeline ---- */
+.milestone-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.milestone-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #D4AF37;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+.milestone-year { font-weight: 700; color: #D4AF37; min-width: 50px; }
+.milestone-desc { color: #C8D4E8; font-size: 0.9rem; }
+
+/* ---- Streamlit overrides ---- */
+[data-testid="stSidebar"] {
+    background: #0D1220 !important;
+    border-right: 1px solid rgba(212,175,55,0.15);
+}
+[data-testid="stMetric"] {
+    background: rgba(19,27,46,0.6);
+    border-radius: 8px;
+    padding: 12px;
+}
+div[data-testid="stMetricValue"] > div {
+    color: #D4AF37 !important;
+    font-weight: 700;
+}
+.stTabs [data-baseweb="tab-list"] {
+    background: #131B2E;
+    border-radius: 8px;
+}
+.stTabs [data-baseweb="tab"] {
+    color: #8899BB;
+}
+.stTabs [aria-selected="true"] {
+    color: #D4AF37 !important;
+    border-bottom-color: #D4AF37 !important;
+}
+.stButton > button {
+    background: linear-gradient(135deg, #D4AF37, #B8963E);
+    color: #0A0E1A;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+}
+.stButton > button:hover {
+    background: linear-gradient(135deg, #E8C547, #D4AF37);
+    transform: translateY(-1px);
+}
+.stProgress .st-bo { background: #D4AF37; }
